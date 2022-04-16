@@ -4,17 +4,26 @@
 #include<vector>
 
 #include "input.h"
+#include "solver.h"
 
 int main(){ 
 
-    std::ifstream input_file("input.csv");
+    std::ifstream input_list_file("input_list.txt");
     std::string line;
-    std::vector<std::string> unprocessed_input; 
 
+    if(input_list_file.is_open()){
+        while(getline(input_list_file, line)){
+            std::ifstream input_file(line);
+            std::vector<std::string> unprocessed_input; 
 
-    while(getline(input_file, line)){
-        unprocessed_input.push_back(line);
+            if(input_file.is_open()){
+                while(getline(input_file, line)){
+                    unprocessed_input.push_back(line);
+                }
+
+                Input* input = new Input(unprocessed_input);
+                Solver* solver = new Solver(input);
+            }
+        }
     }
-
-    Input* input = new Input();
 }
